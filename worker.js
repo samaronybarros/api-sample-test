@@ -13,7 +13,9 @@ const generateLastModifiedDateFilter = (date, nowDate, propertyName = 'hs_lastmo
   const lastModifiedDateFilter = date ?
     {
       filters: [
-        { propertyName, operator: 'GTE', value: `${date.valueOf()}` },
+        // { propertyName, operator: 'GTE', value: `${date.valueOf()}` },
+        // { propertyName, operator: 'LTE', value: `${nowDate.valueOf()}` }
+        { propertyName, operator: 'GTE', value: `${(new Date('2023-01-01')).valueOf()}` },
         { propertyName, operator: 'LTE', value: `${nowDate.valueOf()}` }
       ]
     } :
