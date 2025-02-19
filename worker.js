@@ -267,7 +267,7 @@ const processContacts = async (domain, hubId, q) => {
  */
 const processMeetings = async (domain, hubId, q) => {
   const account = domain.integrations.hubspot.accounts.find(account => account.hubId === hubId);
-  const lastPulledDate = account.lastPulledDates.meetings;
+  const lastPulledDate = new Date(account.lastPulledDates.toObject().meetings);
   const now = new Date();
 
   let hasMore = true;
@@ -276,10 +276,10 @@ const processMeetings = async (domain, hubId, q) => {
 
   while (hasMore) {
     const lastModifiedDate = offsetObject.lastModifiedDate || lastPulledDate;
-    const lastModifiedDateFilter = generateLastModifiedDateFilter(lastModifiedDate, now, 'lastmodifieddate');
+    const lastModifiedDateFilter = generateLastModifiedDateFilter(lastModifiedDate, now);
     const searchObject = {
       filterGroups: [lastModifiedDateFilter],
-      sorts: [{ propertyName: 'lastmodifieddate', direction: 'ASCENDING' }],
+      sorts: [{ propertyName: 'hs_lastmodifieddate', direction: 'ASCENDING' }],
       limit,
       after: offsetObject.after
     };
@@ -395,7 +395,7 @@ const processMeetings = async (domain, hubId, q) => {
         username,
         meetingProperties: {
           meeting_id: meetingDetails.meetingId,
-          meeting_title: meetingDetails.meeting.hs_meeting_title,
+          meeting_title: meetingDetails.meeting.hs_meeting_title || 'No Title Defined',
           start_time: meetingDetails.meeting.hs_meeting_start_time,
           end_time: meetingDetails.meeting.hs_meeting_end_time,
           // TODO: add necessary meeting information
