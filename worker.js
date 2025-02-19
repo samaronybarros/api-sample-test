@@ -13,8 +13,8 @@ const generateLastModifiedDateFilter = (date, nowDate, propertyName = 'hs_lastmo
   const lastModifiedDateFilter = date ?
     {
       filters: [
-        { propertyName, operator: 'GTQ', value: `${date.valueOf()}` },
-        { propertyName, operator: 'LTQ', value: `${nowDate.valueOf()}` }
+        { propertyName, operator: 'GTE', value: `${date.valueOf()}` },
+        { propertyName, operator: 'LTE', value: `${nowDate.valueOf()}` }
       ]
     } :
     {};
@@ -184,6 +184,7 @@ const processContacts = async (domain, hubId, q) => {
     while (tryCount <= 4) {
       try {
         searchResult = await hubspotClient.crm.contacts.searchApi.doSearch(searchObject);
+        console.log("🚀 ~ processContacts ~ searchResult:", searchResult)
         break;
       } catch (err) {
         tryCount++;
