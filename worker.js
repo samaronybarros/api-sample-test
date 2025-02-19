@@ -385,8 +385,8 @@ const processMeetings = async (domain, hubId, q) => {
 
     data.forEach(async meeting => {
       const meetingDetails = meetingMapping.get(meeting.id);
+      const isCreated = !lastPulledDate || (new Date(meetingDetails.meeting.hs_createdate) > lastPulledDate)
 
-      const isCreated = new Date(meetingDetails.meeting.hs_createdate) > lastPulledDate;
       let contactEmail = meetingDetails.contact.email || 'unknown@example.com';
       const username = `${meetingDetails.contact.firstname} ${meetingDetails.contact.lastname}` || 'unknown';
       const actionTemplate = {
@@ -398,6 +398,7 @@ const processMeetings = async (domain, hubId, q) => {
           meeting_title: meetingDetails.meeting.hs_meeting_title || 'No Title Defined',
           start_time: meetingDetails.meeting.hs_meeting_start_time,
           end_time: meetingDetails.meeting.hs_meeting_end_time,
+          meeting_outcome: meetingDetails.meeting.hs_meeting_outcome,
           // TODO: add necessary meeting information
         },
       };
