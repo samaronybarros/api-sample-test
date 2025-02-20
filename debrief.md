@@ -27,3 +27,9 @@ there was a wrong operator in the code. It must be GTE instead of GTQ
 // After
 { propertyName, operator: 'GTE', value: `${date.valueOf()}` },
 ```
+
+## Screenshot
+
+Below you can find the Screenshot of the output from the new function created.
+
+![image](./app-result.png)
